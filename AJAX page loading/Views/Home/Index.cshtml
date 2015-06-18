@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('form#modal').submit(function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'GET',
+                    success: function (data) {
+                        $('div#main').attr('style', 'position:relative; left:1%; top:1%');
+                        $('div#modal').append(data);
+                        $('div#modal').removeAttr('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div style="position:absolute; left:49%; top:49%" id="main">
+    <div>
+        @using (Html.BeginForm("Additional", "Home", FormMethod.Get, new { id = "olol"}))
+        {
+            @Html.TextBox("modal", false, new { hidden = "hidden" });
+            <input type="submit" value="next">
+        }
+    </div>
+    <div>
+        @using (Html.BeginForm("Additional", "Home", FormMethod.Get, new { id = "modal"}))
+        {
+            <input type="submit" value="dialog">
+        }
+    </div>
+    </div>
+    <div id="modal" style = "position:absolute; left:0; top:0;  height : 100%; width : 100%;" hidden="hidden"></div>
+</body>
+</html>
